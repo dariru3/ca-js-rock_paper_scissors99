@@ -17,8 +17,21 @@ let playerOneMoveOneType,
 let playerOneArr = [playerOneMoveOneType, playerOneMoveOneValue, playerOneMoveTwoType, playerOneMoveTwoValue, playerOneMoveThreeType, playerOneMoveThreeValue];
 let playerTwoArr = [playerTwoMoveOneType, playerTwoMoveOneValue, playerTwoMoveTwoType, playerTwoMoveTwoValue, playerTwoMoveThreeType, playerTwoMoveThreeValue];
 
-let pOne = "Player One";
-let pTwo = "Player Two";
+let p1 = "Player One";
+let p2 = "Player Two";
+
+/**
+ * Helper function that divides all moves into one round
+ * @param {array} arr Array of all 3 rounds.
+ * @param {number} roundNumber Round number.
+ * @returns Moves for the designated round.
+ */
+function roundMoves_(arr, roundNumber){
+    //round 1: 0, 2; round 2; 2, 4; round 3: 4, 6
+    let roundMoves = arr.slice((round * 2) - 2, round * 2);
+
+    return roundMoves
+}
 
 /**
  * Set global variables
@@ -31,29 +44,33 @@ let pTwo = "Player Two";
  * @param {number} moveThreeValue 
  */
 function setPlayerMoves(player, moveOneType, moveOneValue, moveTwoType, moveTwoValue, moveThreeType, moveThreeValue){
-    let playerMovesArr = [moveOneType, moveOneValue, moveTwoType, moveTwoValue, moveThreeType, moveThreeValue];
-    if(player == pOne){
-        for(let i = 0; i < playerMovesArr.length; i++){
-            playerOneArr[i] = playerMovesArr[i];
-        };
-    } else if(player == pTwo){
-        for(let i = 0; i < playerMovesArr.length; i++){
-            playerTwoArr[i] = playerMovesArr[i];
-        };
-    } else {
-        console.log('Invalid player entered')
-    };
+    if(player == p1){
+        playerOneMoveOneType = moveOneType;
+        playerOneMoveOneValue = moveOneValue;
+        playerOneMoveTwoType = moveTwoType;
+        playerOneMoveTwoValue = moveTwoValue;
+        playerOneMoveThreeType = moveThreeType;
+        playerOneMoveThreeValue = moveThreeValue;
+    } else if(player == p2){
+        playerTwoMoveOneType = moveOneType;
+        playerTwoMoveOneValue = moveOneValue;
+        playerTwoMoveTwoType = moveTwoType;
+        playerTwoMoveTwoValue = moveTwoValue;
+        playerTwoMoveThreeType = moveThreeType;
+        playerTwoMoveThreeValue = moveThreeValue;
+    } else { console.log ("invalid player") }
+
 }
 
 /**
- * Compare moves by index of a Rock-Paper-Scissors array 
+ * Helper function to compare moves by index of a Rock-Paper-Scissors array 
  * @param {string} pOneMove 
  * @param {number} pOneValue 
  * @param {string} pTwoMove 
  * @param {number} pTwoValue 
  * @return winner 
  */
-function compareMoveType(pOneMove, pOneValue, pTwoMove, pTwoValue){
+function compareMoveType_(pOneMove, pOneValue, pTwoMove, pTwoValue){
     let moveTypes = ["rock", "paper", "scissors"];
     pOneMove = pOneMove.toLowerCase();
     pTwoMove = pTwoMove.toLowerCase();
@@ -66,28 +83,29 @@ function compareMoveType(pOneMove, pOneValue, pTwoMove, pTwoValue){
             winner = "Tie"
         }
         if(pOneValue > pTwoValue){
-            winner = pOne
-        } else { winner = pTwo; }
+            winner = p1
+        } else { winner = p2; }
     }
     //check winner
     if(pOneMoveIndex == 0 && pTwoMoveIndex == moveTypes.length - 1){
-        winner = pOne;
+        winner = p1;
     }
     if(pTwoMoveIndex == 0 && pOneMoveIndex == moveTypes.length - 1){
-        winner = pTwo;
+        winner = p2;
     }
     if(pOneMoveIndex > pTwoMoveIndex){
-        winner = pOne;
+        winner = p1;
     }
     if(pTwoMoveIndex > pOneMoveIndex){
-        winner = pTwo;
+        winner = p2;
     }
 
     return winner;
 }
 
 function getRoundWinner(round){
-    if(round == 1){
-        console.log("placeholder")
-    }
+    let playerOne, playerTwo;
+    playerOne = roundMoves_(playerOneArr, round);
+    playerTwo = roundMoves_(playerTwoArr, round);
+    return compareMoveType_(playerOne[0], playerOne[1], playerTwo[0], playerTwo[1])
 }
