@@ -44,6 +44,18 @@ function roundMoves_(arr, roundNumber){
  * @param {number} moveThreeValue 
  */
 function setPlayerMoves(player, moveOneType, moveOneValue, moveTwoType, moveTwoValue, moveThreeType, moveThreeValue){
+    //check values: valid move types, valid move values
+
+    let moves = [moveOneType, moveTwoType, moveThreeType];
+    for(let i=0; i < moves.length; i++){
+        if(moves[i] !== 'rock' || moves[i] !== "paper" || moves[i] !== "scissors"){
+            console.log("invalid move")
+        }
+    }
+
+    let values = [moveOneValue, moveTwoValue, moveThreeValue];
+
+    //set values
     if(player == p1){
         playerOneMoveOneType = moveOneType;
         playerOneMoveOneValue = moveOneValue;
